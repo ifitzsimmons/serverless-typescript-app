@@ -1,14 +1,49 @@
 # serverless-typescript-app
+I love developing TypeScript Applications. I hate deploying TypeScript applications to AWS Lambda.
 
-# `tsconfig.json` Options
-* `"sourceMap": true`: This setting will map the transpiled Node lines of code back to the TypeScript lines of code. Useful for debugging
-* `target` and `lib`: Tells TypeScript transpiler how to transpile code to node.
-* `"resolveJsonModule": true`: Carries over code structure to the build directory
-* `include`: tells transpiler which files to transpile
-* `exclude`: tells transpiler files and folders to exclude
-* `allowJs`: "transpiles" plain JavaScript code in case there are any JS files
+This project serves as an example for deploying TypeScript applications to AWS using a little bit of custom configuration and the [serverless framework](https://www.serverless.com/).
 
-# package.json
-* `build`: removes old build directories and transpiles TS
-* `build-deploy`: builds typescript and then calls `sls deploy`
-* `deploy`: deploys app from the `build` directory.
+By making a few slight modifications to the `tsconfig.json`, `serverless.yml`, and `package.json` files, we can easily deploy TypeScript to AWS Lambda.
+
+For a better understanding of the project, I suggest reading the associated article: **[Build a TypeScript AWS Serverless Application](linkme.com)**.
+
+## Get Started
+If you learn by doing, install the project dependencies and run either one of the following commands:
+```bash
+$ yarn build-deploy
+$ npm run build-deploy
+```
+
+This command will build the TypeScript services defined in the `src/` directory and deploy them to AWS. When you go to the CloudFormation service in the AWS Console, you'll see a new stack named `web-forum-ts-dev`, which is defined in the `serverless.yml`. The stack will contain THREE main resources:
+1. **ForumThreads**: DynamoDB Table.
+2. **CreateForumLambdaFunction**: AWS Lambda Function.
+3. **CreateThreadLambdaFunction**: AWS Lambda Function.
+
+To test the functions, here's some sample input
+```json
+// Create Forum
+{
+  "ForumName": "Fix The Title",
+  "User": "Jane Doe",
+}
+
+// Create Thread
+{
+  "ForumName": "Fix The Title",
+  "ThreadTitle": "NewThread",
+  "User": "Jane Doe",
+  "PostedTime": "2021-01-01T22:00:00.000",
+  "Message": "First thread!!!"
+}
+```
+
+Please note that the `ForumName` provided in the payload for the *CreateThread* Lambda must be a valid Forum Name, meaning it must exist in the table.
+## Data Model
+This application uses a DynamoDB Single Table design pattern for its backend. I wrote an article explaining how I modeled the data for this application, and if you're interested, you can read that [here](https://ifitzsimmons.medium.com/single-table-dynamodb-data-modeling-63d9c742942c).
+
+## Project Contents
+To minimize the risk of information overload, this release contains just two Lambda services:
+1. Create a new *Forum*.
+2. Create a new *Thread* within an established *Forum*.
+
+Additionally, I left out unit tests and formatters/linters so that we can focus on the important files for deploying our TypeScript application.
