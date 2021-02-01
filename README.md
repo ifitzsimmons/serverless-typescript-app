@@ -5,7 +5,7 @@ This project serves as an example for deploying TypeScript applications to AWS u
 
 By making a few slight modifications to the `tsconfig.json`, `serverless.yml`, and `package.json` files, we can easily deploy TypeScript to AWS Lambda.
 
-For a better understanding of the project, I suggest reading the associated article: **[Build a TypeScript AWS Serverless Application](linkme.com)**.
+For a better understanding of the project, I suggest reading the associated article: **[Build a TypeScript AWS Serverless Application](https://ifitzsimmons.medium.com/af1fdcd1a90?source=friends_link&sk=8d293ad1eb93c4fdfe86188bcfef8ec0)**.
 
 ## Get Started
 If you learn by doing, install the project dependencies and run either one of the following commands:
